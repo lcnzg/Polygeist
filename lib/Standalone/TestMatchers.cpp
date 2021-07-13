@@ -10,7 +10,7 @@
 #include "mlir/IR/BuiltinOps.h"
 #include "mlir/IR/Matchers.h"
 #include "mlir/Pass/Pass.h"
-#include "Standalone/Passes.h"
+#include "Standalone/TestMatchersPass.h"
 
 using namespace mlir;
 
@@ -148,6 +148,6 @@ void TestMatchers::runOnFunction() {
     test2(f);
 }
 
-std::unique_ptr<OperationPass<FuncOp>> mlir::createTestMatchersPass() {
-  return std::make_unique<TestMatchers>();
+void mlir::registerTestMatchersPass() {
+  PassRegistration<TestMatchers>("test-matchers", "Test matchers");
 }
