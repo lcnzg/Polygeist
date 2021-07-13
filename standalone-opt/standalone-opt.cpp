@@ -28,8 +28,10 @@ int main(int argc, char **argv) {
   mlir::DialectRegistry registry;
   registry.insert<mlir::standalone::StandaloneDialect>();
   registry.insert<mlir::StandardOpsDialect>();
+  mlir::MLIRContext context(registry);
 
   mlir::registerTestMatchersPass();
+  context.getOrLoadDialect<mlir::AffineDialect>();
 
   return mlir::asMainReturnCode(
       mlir::MlirOptMain(argc, argv, "Standalone optimizer driver\n", registry));
