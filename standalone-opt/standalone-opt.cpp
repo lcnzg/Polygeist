@@ -18,13 +18,13 @@
 #include "llvm/Support/InitLLVM.h"
 #include "llvm/Support/SourceMgr.h"
 #include "llvm/Support/ToolOutputFile.h"
-
+#include "Standalone/Passes.h"
 #include "Standalone/StandaloneDialect.h"
 
 int main(int argc, char **argv) {
   mlir::registerAllPasses();
   // TODO: Register standalone passes here.
-
+  
   mlir::DialectRegistry registry;
   registry.insert<mlir::standalone::StandaloneDialect>();
   registry.insert<mlir::StandardOpsDialect>();
@@ -32,6 +32,11 @@ int main(int argc, char **argv) {
   // include what you need like above. You only need to register dialects that
   // will be *parsed* by the tool, not the one generated
   // registerAllDialects(registry);
+  //mlir::MLIRContext context(registry);
+  //mlir::PassManager pm(&context);
+  //mlir::OpPassManager &optPm = pm.nest<mlir::FuncOp>();
+  //optPm.addPass(mlir::createTestMatchersPass());
+  //mlir::registerTestMatcher();
 
   return mlir::asMainReturnCode(
       mlir::MlirOptMain(argc, argv, "Standalone optimizer driver\n", registry));
