@@ -163,7 +163,7 @@ void getNestedLoops(std::vector<SmallVector<scf::ForOp, 4>> &bands, FuncOp f) {
   getNestedLoopsImpl(bands, f);
 }
 
-void test3(FuncOp f) {
+void matmul(FuncOp f) {
   if (f.getNumArguments() != 3)
     llvm_unreachable("matcher test func must have 3 args");
   std::vector<SmallVector<AffineForOp, 4>> bands;
@@ -216,8 +216,8 @@ void TestMatchers::runOnFunction() {
     test1(f);
   if (f.getName() == "test2")
     test2(f);
-  if (f.getName() == "test3")
-    test3(f);
+  if (f.getName() == "matmul")
+    matmul(f);
 }
 
 void mlir::registerTestMatchersPass() {

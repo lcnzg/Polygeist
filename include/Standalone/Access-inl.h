@@ -64,12 +64,14 @@ bool op_load_store_matcher<OpClass>::matchLoadOpInAffine(AffineLoadOp op) {
 }
 
 template <typename OpClass>
-bool op_load_store_matcher<OpClass>::matchLoadOpInLoop(mlir::memref::LoadOp op) {
+bool op_load_store_matcher<OpClass>::matchLoadOpInLoop(
+    mlir::memref::LoadOp op) {
   return matchLoadOrStoreOpInLoop<mlir::memref::LoadOp>(op);
 }
 
 template <typename OpClass>
-bool op_load_store_matcher<OpClass>::matchStoreOpInLoop(mlir::memref::StoreOp op) {
+bool op_load_store_matcher<OpClass>::matchStoreOpInLoop(
+    mlir::memref::StoreOp op) {
   return matchLoadOrStoreOpInLoop<mlir::memref::StoreOp>(op);
 }
 
@@ -119,10 +121,12 @@ bool op_load_store_array_matcher<OpClass>::match(Operation *op) {
     return assingToArrayPlaceholder<AffineStoreOp>(storeOp, matchingContext);
   }
   if (auto loadOp = dyn_cast<mlir::memref::LoadOp>(op)) {
-    return assingToArrayPlaceholder<mlir::memref::LoadOp>(loadOp, matchingContext);
+    return assingToArrayPlaceholder<mlir::memref::LoadOp>(loadOp,
+                                                          matchingContext);
   }
   if (auto storeOp = dyn_cast<mlir::memref::StoreOp>(op)) {
-    return assingToArrayPlaceholder<mlir::memref::StoreOp>(storeOp, matchingContext);
+    return assingToArrayPlaceholder<mlir::memref::StoreOp>(storeOp,
+                                                           matchingContext);
   }
   llvm_unreachable("expect AffineStore/AffineLoad/LoadOp/StoreOp");
   return false;

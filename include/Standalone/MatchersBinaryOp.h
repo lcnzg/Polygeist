@@ -33,16 +33,20 @@ struct BinaryOpMatcher {
 } // end namespace detail
 
 namespace matchers {
-template <typename LHS_t, typename RHS_t> auto m_AddF(LHS_t lhs, RHS_t rhs) {
+template <typename LHS_t, typename RHS_t>
+auto m_AddF(LHS_t lhs, RHS_t rhs) {
   return detail::BinaryOpMatcher<mlir::AddFOp, LHS_t, RHS_t>(lhs, rhs);
 }
-template <typename LHS_t, typename RHS_t> auto m_AddI(LHS_t lhs, RHS_t rhs) {
+template <typename LHS_t, typename RHS_t>
+auto m_AddI(LHS_t lhs, RHS_t rhs) {
   return detail::BinaryOpMatcher<mlir::AddIOp, LHS_t, RHS_t>(lhs, rhs);
 }
-template <typename LHS_t, typename RHS_t> auto m_MulF(LHS_t lhs, RHS_t rhs) {
+template <typename LHS_t, typename RHS_t>
+auto m_MulF(LHS_t lhs, RHS_t rhs) {
   return detail::BinaryOpMatcher<mlir::MulFOp, LHS_t, RHS_t>(lhs, rhs);
 }
-template <typename LHS_t, typename RHS_t> auto m_MulI(LHS_t lhs, RHS_t rhs) {
+template <typename LHS_t, typename RHS_t>
+auto m_MulI(LHS_t lhs, RHS_t rhs) {
   return detail::BinaryOpMatcher<mlir::MulIOp, LHS_t, RHS_t>(lhs, rhs);
 }
 } // end namespace matchers

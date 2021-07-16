@@ -2,11 +2,12 @@
 #define MLIR_IR_ACCESS_MATCHER_H_
 
 #include "mlir/Dialect/Affine/IR/AffineOps.h"
-#include "mlir/Dialect/StandardOps/IR/Ops.h"
 #include "mlir/Dialect/MemRef/IR/MemRef.h"
+#include "mlir/Dialect/StandardOps/IR/Ops.h"
 #include "llvm/ADT/DenseMap.h"
 #include "llvm/Support/raw_ostream.h" // remove me
 
+#include "Standalone/AffineExpr.h"
 /* Typical use:
 
 {
@@ -205,7 +206,8 @@ inline AffineExpr makeAffineExpr(MLIRContext *ctx, AffineExpr &expr, int &pos) {
   return expr.replaceDimsAndSymbols(inductions, {});
 }
 
-template <typename OpClass> class op_load_store_matcher {
+template <typename OpClass>
+class op_load_store_matcher {
 public:
   SmallVector<m_Placeholder, 4> placeholders_;
   op_load_store_matcher(SmallVector<m_Placeholder, 4> ps) : placeholders_(ps) {
@@ -227,14 +229,17 @@ private:
 
   bool matchStoreOpInAffine(AffineStoreOp op);
   bool matchLoadOpInAffine(AffineLoadOp op);
-  template <typename A> bool matchLoadOrStoreOpInAffine(A op);
+  template <typename A>
+  bool matchLoadOrStoreOpInAffine(A op);
 
   bool matchStoreOpInLoop(memref::StoreOp op);
   bool matchLoadOpInLoop(memref::LoadOp op);
-  template <typename L> bool matchLoadOrStoreOpInLoop(L op);
+  template <typename L>
+  bool matchLoadOrStoreOpInLoop(L op);
 };
 
-template <typename OpClass> class op_load_store_array_matcher {
+template <typename OpClass>
+class op_load_store_array_matcher {
 public:
   StructuredArrayPlaceholder arrayPlaceholder_;
   op_load_store_array_matcher() = delete;
@@ -247,7 +252,8 @@ private:
   bool assingToArrayPlaceholder(T op, details::MatchingContext *ctx);
 };
 
-template <class T, class...> struct are_same : std::true_type {};
+template <class T, class...>
+struct are_same : std::true_type {};
 
 template <class T, class U, class... TT>
 struct are_same<T, U, TT...>

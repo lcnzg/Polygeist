@@ -16,23 +16,37 @@
 #include "mlir/Pass/PassManager.h"
 #include "mlir/Support/FileUtilities.h"
 #include "mlir/Support/MlirOptMain.h"
-#include "llvm/Support/CommandLine.h"
 #include "llvm/Support/InitLLVM.h"
 #include "llvm/Support/SourceMgr.h"
 #include "llvm/Support/ToolOutputFile.h"
+/*
+static llvm::cl::OptionCategory toolOptions("standalone mlir - tool options");
 
+static llvm::cl::opt<bool>
+    showDialects("show-dialects",
+                 llvm::cl::desc("Print the list of registered dialects"),
+                 llvm::cl::init(false), llvm::cl::cat(toolOptions));
+*/
 int main(int argc, char **argv) {
   mlir::registerAllPasses();
   // TODO: Register standalone passes here.
-  
+
   mlir::DialectRegistry registry;
   registry.insert<mlir::standalone::StandaloneDialect>();
   registry.insert<mlir::StandardOpsDialect>();
   mlir::MLIRContext context(registry);
-
+  // TODO: why not with context?
+  mlir::registerAllDialects(registry);
   mlir::registerTestMatchersPass();
-  context.getOrLoadDialect<mlir::AffineDialect>();
-
+  /*
+    //if (showDialects) {
+      llvm::outs() << "Registered Dialects:\n";
+      for (mlir::Dialect *dialect : context.getLoadedDialects()) {
+        llvm::outs() << dialect->getNamespace() << "\n";
+      }
+      //return 0;
+    //}
+  */
   return mlir::asMainReturnCode(
       mlir::MlirOptMain(argc, argv, "Standalone optimizer driver\n", registry));
 }
